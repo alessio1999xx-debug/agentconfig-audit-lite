@@ -2,6 +2,8 @@
 
 agentconfig-audit-lite helps with auditing MCP config for secrets and a quick check of the AI agent setup in one project: it lists the MCP server configs and agent rule files it finds, and flags plaintext tokens, `npx`/`uvx` MCP servers with no version pin, and Claude Code settings that don't keep the agent away from `.env` files and migrations. One file, Python 3.9+ standard library only, read-only, MIT.
 
+Need a machine-wide MCP audit, JSON or SARIF, or hidden-Unicode and injection checks? That is the full [AgentConfig Audit](https://py-forge.com/products/agentconfig-audit-mcp-and-rules-scanner?utm_source=github&utm_medium=readme&utm_campaign=agentconfig-audit-lite) (one-time payment, yours to keep, no subscription). A table later in this README lists what lite does and what the paid tool adds. Or get every PyForge tool, current and future, with the [All-Access Pass](https://py-forge.com/pass?utm_source=github&utm_medium=readme&utm_campaign=agentconfig-audit-lite) ($99, one payment).
+
 - Optional `pip install`, or just download the one file. No config, no state, no network calls.
 - Secrets are shown as masked previews only (`ghp_****(40 chars)`), never in full.
 - Flags: `--file`, `--version`. After `pip install`, use `agentconfig-audit-lite` in place of `python3 agentconfig_audit_lite.py`.
@@ -74,17 +76,23 @@ JSON with comments can't be parsed by the standard library; those files get a `N
 
 agentconfig-audit-lite checks one project dir and prints a plain text list. That's it.
 
-The full **[AgentConfig Audit](https://py-forge.com/products/agentconfig-audit-mcp-and-rules-scanner?utm_source=github&utm_medium=readme&utm_campaign=agentconfig-audit-lite)** helps with:
+The full [AgentConfig Audit](https://py-forge.com/products/agentconfig-audit-mcp-and-rules-scanner?utm_source=github&utm_medium=readme&utm_campaign=agentconfig-audit-lite) adds machine-wide discovery, filesystem and remote checks, hidden-Unicode and injection detection, JSON or SARIF output, severity and a suggested fix. One-time payment, yours to keep. No subscription.
 
-- finding the MCP configs installed on the machine (Claude Desktop, Cursor, VS Code, Windsurf, Codex, `~/.claude.json`) on macOS, Linux and Windows
-- MCP servers given the whole filesystem (`/`, `~`, `/home`, `C:\`) and remote MCP endpoints with no auth header or plain `http://`
-- hidden Unicode (zero-width and bidi override characters) and prompt-injection phrases in rule files
-- JSON and SARIF 2.1.0 reports, written to a file if you want
-- a suggested fix or command for each finding, severity levels and a `--strict` mode for HIGH/CRITICAL only
+Lite is not a strict subset: it also has Claude Code deny-rule and `bunx` checks the paid tool does not.
 
-One-time payment, yours to keep. No subscription.
+| Capability | Lite (free) | Paid AgentConfig Audit |
+| --- | --- | --- |
+| What it scans | One project directory, plus optional `--file` | Project paths, plus `--system-configs` for Claude Desktop, Cursor, VS Code, Windsurf, Codex and `~/.claude.json` on macOS, Linux and Windows |
+| Plaintext secrets in MCP config | Yes (masked previews only) | Yes (shortened values, CRITICAL, with a suggested fix) |
+| Unpinned MCP runners | `npx`, `uvx` and `bunx` | `npx` and `uvx` (not `bunx`) |
+| Claude Code `.env` / migrations deny rules and `secret-in-allow-rule` | Yes | No |
+| Whole-disk or home filesystem grants | No | Yes |
+| Remote MCP endpoints with no auth or plain `http://` | No | Yes |
+| Hidden Unicode, bidi overrides and injection phrases in rule files | No | Yes |
+| Output | Plain text list | Text, JSON or SARIF 2.1.0 |
+| Severity, suggested fix, `--strict` for CI | No | Yes |
 
-Or get every PyForge tool, current and future, with the [All-Access Pass](https://py-forge.com/pass?utm_source=github&utm_medium=readme&utm_campaign=agentconfig-audit-lite).
+Or get every PyForge tool, current and future, with the [All-Access Pass](https://py-forge.com/pass?utm_source=github&utm_medium=readme&utm_campaign=agentconfig-audit-lite) ($99, one payment).
 
 ## Tests
 
