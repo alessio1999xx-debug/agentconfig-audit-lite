@@ -330,7 +330,7 @@ def render(root: str, inventory, findings, notes) -> str:
 
 def main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser(
-        prog="agentconfig_audit_lite.py",
+        prog="agentconfig-audit-lite",
         description="Read-only audit of MCP configs and AI agent rule files in one project dir. "
                     "Exit 0 = clean, 1 = findings, 2 = usage error.")
     ap.add_argument("project", nargs="?", default=".", help="project directory to scan (default: .)")

@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentconfig-audit-lite"
+version = "0.1.0"
+description = "Audit MCP config for secrets: plaintext tokens and unpinned npx/uvx servers in .mcp.json and CLAUDE.md."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.9"
+authors = [{name = "Alessio Auretto"}]
+keywords = [
+  "mcp",
+  "mcp-security",
+  "model-context-protocol",
+  "claude-code",
+  "cursor",
+  "ai-agents",
+  "secret-scanning",
+  "cli",
+  "stdlib",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Security",
+  "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://github.com/alessio1999xx-debug/agentconfig-audit-lite"
+"Pro version" = "https://py-forge.com/products/agentconfig-audit-mcp-and-rules-scanner"
+
+[project.scripts]
+agentconfig-audit-lite = "agentconfig_audit_lite:main"
+
+[tool.setuptools]
+py-modules = ["agentconfig_audit_lite"]

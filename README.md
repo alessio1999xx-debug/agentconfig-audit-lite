@@ -2,11 +2,18 @@
 
 agentconfig-audit-lite helps with auditing MCP config for secrets and a quick check of the AI agent setup in one project: it lists the MCP server configs and agent rule files it finds, and flags plaintext tokens, `npx`/`uvx` MCP servers with no version pin, and Claude Code settings that don't keep the agent away from `.env` files and migrations. One file, Python 3.9+ standard library only, read-only, MIT.
 
-- Nothing to `pip install`. No config, no state, no network calls.
+- Optional `pip install`, or just download the one file. No config, no state, no network calls.
 - Secrets are shown as masked previews only (`ghp_****(40 chars)`), never in full.
-- Flags: `--file`, `--version`.
+- Flags: `--file`, `--version`. After `pip install`, use `agentconfig-audit-lite` in place of `python3 agentconfig_audit_lite.py`.
 
 ## Install
+
+```bash
+pip install agentconfig-audit-lite
+agentconfig-audit-lite --help
+```
+
+Or download the single file (Python 3.9+, stdlib only, no extra packages):
 
 ```bash
 curl -fsSLO https://raw.githubusercontent.com/alessio1999xx-debug/agentconfig-audit-lite/main/agentconfig_audit_lite.py
