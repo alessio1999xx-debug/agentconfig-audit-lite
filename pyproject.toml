@@ -38,8 +38,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/alessio1999xx-debug/agentconfig-audit-lite"
-"Pro version" = "https://py-forge.com/products/agentconfig-audit-mcp-and-rules-scanner"
+Homepage = "https://py-forge.com/products/agentconfig-audit-mcp-and-rules-scanner?utm_source=pypi&utm_medium=project_page&utm_campaign=agentconfig-audit-lite"
+Source = "https://github.com/alessio1999xx-debug/agentconfig-audit-lite"
+Repository = "https://github.com/alessio1999xx-debug/agentconfig-audit-lite"
 
 [project.scripts]
 agentconfig-audit-lite = "agentconfig_audit_lite:main"
