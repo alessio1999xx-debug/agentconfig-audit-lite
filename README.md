@@ -1,4 +1,4 @@
-# agentconfig-audit-lite: audit MCP config for secrets, unpinned servers and unsafe Claude Code settings
+# agentconfig-audit-lite: MCP security scanner that audits MCP config for secrets, unpinned servers and unsafe Claude Code settings
 
 agentconfig-audit-lite helps with auditing MCP config for secrets and a quick check of the AI agent setup in one project: it lists the MCP server configs and agent rule files it finds, and flags plaintext tokens, `npx`/`uvx` MCP servers with no version pin, and Claude Code settings that don't keep the agent away from `.env` files and migrations. One file, Python 3.9+ standard library only, read-only, MIT.
 
@@ -8,7 +8,13 @@ Need a machine-wide MCP audit, JSON or SARIF, or hidden-Unicode and injection ch
 - Secrets are shown as masked previews only (`ghp_****(40 chars)`), never in full.
 - Flags: `--file`, `--version`. After `pip install`, use `agentconfig-audit-lite` in place of `python3 agentconfig_audit_lite.py`.
 
-## Install
+## Demo: MCP config audit in the terminal
+
+![Real terminal recording: agentconfig-audit-lite finds an unpinned npx MCP server, a plaintext GitHub token (masked) and missing Claude Code deny rules, exits 1; the fixed project passes with exit 0.](docs/demo.gif)
+
+Real run of the current `agentconfig_audit_lite.py` on two throwaway sample projects (the token is fake). Recorded with asciinema, rendered with agg; the raw recording is in [docs/demo.cast](docs/demo.cast).
+
+## Install (pip or one file)
 
 ```bash
 pip install agentconfig-audit-lite
@@ -22,7 +28,7 @@ curl -fsSLO https://raw.githubusercontent.com/alessio1999xx-debug/agentconfig-au
 python3 agentconfig_audit_lite.py --help
 ```
 
-## Scan a project's MCP config and CLAUDE.md / AGENTS.md rules
+## Scan a project's MCP config and CLAUDE.md / AGENTS.md rules for secrets
 
 ```bash
 python3 agentconfig_audit_lite.py ~/code/my-app
@@ -64,13 +70,25 @@ The two Claude Code settings checks only run when the project uses Claude Code (
 
 JSON with comments can't be parsed by the standard library; those files get a `NOTE` and a plain-text token scan only.
 
-## Exit codes for CI or cron
+## Exit codes: run the MCP config audit in CI or cron
 
 | Exit code | Meaning |
 | --- | --- |
 | `0` | No findings |
 | `1` | At least one finding |
 | `2` | Bad arguments, project dir or `--file` not found |
+
+## Benchmark: how fast is the MCP config scan?
+
+Measured on November 24, 2026 on a shared Linux box (kernel 6.12, x86_64 KVM, 8 vCPUs Intel Xeon, 16 GB RAM), Python 3.13.5, 20 fresh `python3 agentconfig_audit_lite.py <dir>` processes per case, wall clock including interpreter start-up, no warm-up, no cache flush. Every case contains the same four findings, so each run exits `1`.
+
+| Project scanned | Files | Median | Min | Max | Exit |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| small: demo project (4 agent/config files) | 4 | 26.1 ms | 23.8 ms | 63.6 ms | 1 |
+| medium: copy of the Python stdlib + agent files | 663 | 26.5 ms | 26.0 ms | 34.4 ms | 1 |
+| large: medium + node_modules with 20,000 files | 20663 | 26.6 ms | 26.0 ms | 30.8 ms | 1 |
+
+`node_modules`, `.git`, virtualenvs and build dirs are skipped, so a big dependency tree adds almost nothing. For scale, a bare `python3 -c pass` takes a median 9.5 ms on the same box (20 runs); the rest is imports plus the scan. Same script under Python 3.9.25 (5 runs): about 30-32 ms in all three cases. Reproduce with `python3 docs/benchmark.py 20`.
 
 ## agentconfig-audit-lite vs AgentConfig Audit
 
